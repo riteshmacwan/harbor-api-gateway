@@ -1,0 +1,16 @@
+{
+  "definition": {
+    "openapi": "3.1.0",
+    "info": {
+      "title": "Harbor APIs",
+      "version": "1.0.0",
+      "description": "The module serves as the primary entry point for accessing various microservices within the system. It functions as an API gateway, directing incoming requests to the appropriate microservice while also handling authorization and authentication processes, ensuring secure access to the system's resources."
+    },
+    "servers": [
+      {
+        "url": "http://localhost:8080"
+      }
+    ]
+  },
+  "apis": ["./routes/*.ts"]
+}

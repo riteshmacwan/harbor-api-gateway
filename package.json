@@ -1,0 +1,47 @@
+{
+  "name": "harbor-api-gateway-repo",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "repository": "https://millsoft0745@dev.azure.com/millsoft0745/Communication%20Module/_git/Communication%20Module",
+  "scripts": {
+    "build": "tsc",
+    "start": "nodemon"
+  },
+  "author": "ritesh <ritesh.macwan@groovyweb.co>",
+  "license": "MIT",
+  "dependencies": {
+    "@azure/identity": "^4.1.0",
+    "@azure/keyvault-secrets": "^4.8.0",
+    "@types/morgan": "^1.9.9",
+    "applicationinsights": "^3.0.1",
+    "axios": "^1.6.8",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.18.2",
+    "express-validator": "^7.0.1",
+    "helmet": "^7.1.0",
+    "http-proxy-middleware": "^3.0.0",
+    "ioredis": "^5.4.0",
+    "jsonwebtoken": "^9.0.2",
+    "moment": "^2.30.1",
+    "morgan": "^1.10.0",
+    "reflect-metadata": "^0.2.1",
+    "sequelize": "^6.37.3",
+    "sequelize-typescript": "^2.1.6",
+    "swagger-autogen": "^2.23.7",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0",
+    "tedious": "^18.1.0",
+    "winston": "^3.13.0"
+  },
+  "devDependencies": {
+    "@types/body-parser": "^1.19.5",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.11.28",
+    "nodemon": "^3.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.2"
+  }
+}
