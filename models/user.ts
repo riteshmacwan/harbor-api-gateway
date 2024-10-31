@@ -1,37 +1,97 @@
-import { Model, Column, Table, DataType } from "sequelize-typescript";
+import { Schema, Document, Model, model, Types } from "mongoose";
+import { UserBody } from "../types/user";
+
 /**
- * Represents a therapeutic area.
+ * Interface representing a script category document.
  */
-@Table({
-    tableName: "AspNetUsers",
-    schema: "dbo",
-    timestamps: false,
-    indexes: [
-        {
-            name: "PK_AspNetUsers",
-            unique: true,
-            fields: [{ name: "Id" }],
-        },
-    ],
-})
-export class User extends Model {
-    /**
-     * Unique identifier for the therapeutic area.
-     */
-    @Column({
-        type: DataType.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-    })
-    Id: number;
+type IUser = UserBody & Document;
 
+const UserSchema: Schema<IUser> = new Schema<IUser>(
+  {
+    phone_number: {
+      required: false,
+      unique: true,
+      type: String,
+    },
+    apple_id: {
+      required: false,
+      type: String,
+    },
+    google_id: {
+      required: false,
+      type: String,
+    },
+    first_name: {
+      required: true,
+      type: String,
+    },
+    last_name: {
+      required: true,
+      type: String,
+    },
+    is_profile_set: {
+      type: Boolean,
+      default: false,
+    },
+    cv: {
+      required: false,
+      type: String,
+    },
+    licenses: {
+      required: false,
+      type: [String],
+    },
+    company: {
+      required: false,
+      type: String,
+    },
+    birth_date: {
+      required: false,
+      type: Date,
+    },
+    gender: {
+      required: true,
+      type: String,
+      enum: ["male", "female", "other"],
+    },
+    //   requires update in the future
+    location: {
+      type: String,
+      required: true,
+    },
+    skill_ids: {
+      type: [Schema.Types.ObjectId],
+      ref: "skills", // Referencing the 'skills' collection
+      required: false,
+    },
+    about: {
+      required: false,
+      type: String,
+    },
+    plan_id: {
+      type: Schema.Types.ObjectId,
+      ref: "plans", // Referencing the 'skills' collection
+      required: false,
+    },
+    level: {
+      required: false,
+      type: Number,
+      default: 1,
+    },
+    language: {
+      required: false,
+      type: String,
+      enum: ["English", "Spanish"],
+    },
+    email: {
+      required: true,
+      type: String,
+    },
+  },
+  {
+    collection: "users",
+    timestamps: true,
+  }
+);
 
-    /**
-     * Email of Recruiters.
-     */
-    @Column({
-        type: DataType.STRING,
-        allowNull: true,
-    })
-    Email: string | null;
-}
+export const User: Model<IUser> = model<IUser>("User", UserSchema);

@@ -1,8 +1,8 @@
 import * as appInsights from "applicationinsights";
 import { SeverityLevel } from "applicationinsights/out/src/declarations/generated";
-import CommonUtils from "./common";
+import { CommonUtils } from "./common";
 
-const commonUtils = CommonUtils.getInstance();;
+const commonUtils = CommonUtils.getInstance();
 
 const HOST = process.env.HOST_URL ?? "localhost";
 const PORT = process.env.HOST_PORT ?? 3000;
@@ -35,7 +35,9 @@ class AppInsightsUtils {
    */
   private async initialize(): Promise<void> {
     if (process.env.NODE_ENV !== "local") {
-      const instrumentationKey = await commonUtils.getSecret(`${process.env.NODE_ENV}-APP-INSIGHTS-CONNECTION-STRING`);
+      const instrumentationKey = await commonUtils.getSecret(
+        `${process.env.NODE_ENV}-APP-INSIGHTS-CONNECTION-STRING`
+      );
 
       if (instrumentationKey) {
         appInsights
@@ -51,14 +53,19 @@ class AppInsightsUtils {
 
         this.insights = appInsights.defaultClient;
         this.insights.context.keys.cloudRole = "Node.js Service";
-        this.insights.context.tags[this.insights.context.keys.cloudRoleInstance] = `http://${HOST}:${PORT}`;
+        this.insights.context.tags[
+          this.insights.context.keys.cloudRoleInstance
+        ] = `http://${HOST}:${PORT}`;
       } else {
         console.error("Application Insights Instrumentation Key is not set");
       }
     }
   }
 
-  public logMessage(message: string, severityLevel: SeverityLevel = "Information"): void {
+  public logMessage(
+    message: string,
+    severityLevel: SeverityLevel = "Information"
+  ): void {
     this.insights?.trackTrace({ message, severity: severityLevel });
   }
 

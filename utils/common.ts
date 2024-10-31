@@ -1,15 +1,14 @@
 import dotenv from "dotenv";
 import Redis from "ioredis";
 
-const { DefaultAzureCredential } = require('@azure/identity');
-const { SecretClient } = require('@azure/keyvault-secrets');
+const { DefaultAzureCredential } = require("@azure/identity");
+const { SecretClient } = require("@azure/keyvault-secrets");
 dotenv.config();
 
 const credential = new DefaultAzureCredential();
 const client = new SecretClient(process.env.KEYVAULT_URI, credential);
 
-
-export default class CommonUtils {
+export class CommonUtils {
   public readFromCache: boolean = true;
   private static instance: CommonUtils | null = null;
   private redisClient: any;
@@ -26,23 +25,25 @@ export default class CommonUtils {
 
   // public method for setting if want to read from cache
   setReadFromCache(value: boolean) {
-    this.readFromCache = value; 
+    this.readFromCache = value;
   }
 
   /**
-    * Initializes the Redis client using configuration from Azure Key Vault.
-    */
+   * Initializes the Redis client using configuration from Azure Key Vault.
+   */
   initializeRedisClient = async () => {
     console.log("Initializing Redis client ==> ");
-    let redisHost = { value: '127.0.0.1' };
-    let redisPort = { value: '6379' };
-    let redisPassword = { value: '' };
-    let redisDB = { value: '0' };
+    let redisHost = { value: "127.0.0.1" };
+    let redisPort = { value: "6379" };
+    let redisPassword = { value: "" };
+    let redisDB = { value: "0" };
 
-    if (process.env.NODE_ENV !== 'local') {
+    if (process.env.NODE_ENV !== "local") {
       redisHost = await client.getSecret(`${process.env.NODE_ENV}-REDIS-HOST`);
       redisPort = await client.getSecret(`${process.env.NODE_ENV}-REDIS-PORT`);
-      redisPassword = await client.getSecret(`${process.env.NODE_ENV}-REDIS-PASSWORD`);
+      redisPassword = await client.getSecret(
+        `${process.env.NODE_ENV}-REDIS-PASSWORD`
+      );
       redisDB = await client.getSecret(`${process.env.NODE_ENV}-REDIS-DB`);
     }
 
@@ -52,12 +53,12 @@ export default class CommonUtils {
       password: redisPassword.value,
       db: parseInt(redisDB.value, 10),
     });
-  }
+  };
 
   public async ensureRedisInitialized(): Promise<void> {
     if (!this.redisClient) {
       if (!this.initializingRedis) {
-        console.log('Redis New Initialise connection called ==> ');
+        console.log("Redis New Initialise connection called ==> ");
         this.initializingRedis = this.initializeRedisClient();
       }
       await this.initializingRedis;
@@ -72,9 +73,9 @@ export default class CommonUtils {
       const jsonData = JSON.stringify(data);
       console.log("jsonData", jsonData);
       // Use the set method of ioredis with the 'EX' option to set TTL in seconds
-      await this.redisClient.set(key, jsonData, 'EX', ttl);
+      await this.redisClient.set(key, jsonData, "EX", ttl);
     } catch (error) {
-      throw new Error('Failed to set cache'); // Throw an error to reject the promise
+      throw new Error("Failed to set cache"); // Throw an error to reject the promise
     }
   };
 
@@ -88,25 +89,25 @@ export default class CommonUtils {
     }
   };
 
-  getSecret = async (secretName : string)  => {
+  getSecret = async (secretName: string) => {
     try {
-        const keyValutKey = secretName;
-        if (this.readFromCache) {
-          const cachedData = await this.getCache(keyValutKey);
-          if(cachedData){
-            return cachedData;
-          }
+      const keyValutKey = secretName;
+      if (this.readFromCache) {
+        const cachedData = await this.getCache(keyValutKey);
+        if (cachedData) {
+          return cachedData;
         }
-        // Retrieve the secret from Key Vault
-        const secret = await client.getSecret(secretName);
-        if (!secret) {
-          throw new Error('Failed to retrieve secret from Key Vault');
-        }
+      }
+      // Retrieve the secret from Key Vault
+      const secret = await client.getSecret(secretName);
+      if (!secret) {
+        throw new Error("Failed to retrieve secret from Key Vault");
+      }
 
-        await this.setCache(keyValutKey, secret.value, 86400);
-        return secret.value;
+      await this.setCache(keyValutKey, secret.value, 86400);
+      return secret.value;
     } catch (error) {
-       return null;
+      return null;
     }
   };
 
@@ -119,9 +120,7 @@ export default class CommonUtils {
     try {
       return JSON.parse(data);
     } catch (e) {
-      return data;  // Return the original data if it's not JSON
+      return data; // Return the original data if it's not JSON
     }
   }
-
 }
-

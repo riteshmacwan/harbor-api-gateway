@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { createProxyMiddleware } from "http-proxy-middleware";
-import CommonUtils from "./../utils/common";
+import { CommonUtils } from "./../utils/common";
 
 class ServiceMap {
   private static instance: ServiceMap;

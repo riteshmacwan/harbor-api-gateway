@@ -3,9 +3,9 @@ import express from "express";
 import { setupSwagger } from "./config/swagger";
 import { errorHandler } from "./middlewares/errorHandler";
 import { requestLogger } from "./middlewares/requestLogger";
-import { connectMssqlDb } from "./config/mssql";
 import routes from "./routes";
 import cors from "cors";
+import { connectMongoDb } from "./config/mongodb";
 
 appInsightsUtils.logMessage("API Gateway: Application is starting...");
 
@@ -26,7 +26,9 @@ setupSwagger(app);
 // Use custom request logger
 app.use(requestLogger);
 
-connectMssqlDb();
+// connectMssqlDb();
+//connect mongodb
+connectMongoDb();
 
 // Health Check Route
 app.get("/health-check", (req, res) => {

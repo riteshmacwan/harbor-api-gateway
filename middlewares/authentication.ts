@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { AuthService } from "../services";
-import CommonUtils from "../utils/common";
+import { CommonUtils } from "../utils/common";
 const commonUtils = CommonUtils.getInstance();
 
 /**
@@ -47,19 +47,16 @@ export class Authentication {
         // TODO: Query Recruiteawaitrs table and find recruiter data based on email and add to RedisCache with 4 Hour Expiry
         // Call the getUserDetails method
         const userData = await this.authService.getUserDetails(decoded.sub);
-        const recruiterDetails = await this.authService.getRecruiterDetails(
-          decoded.sub
-        );
+        // const recruiterDetails = await this.authService.getRecruiterDetails(
+        //   decoded.sub
+        // );
 
         // TODO: Get User Roles from - It's using Core ASP User Management therefore we need to make query to DB
         // Get Roles for User from table AspNetUserRoles and Join the AspNetRoles to get it's Name;
-        const getUserRoles = await this.authService.getUserRole(userData.Id);
+        // const getUserRoles = await this.authService.getUserRole(userData.Id);
         let loginCacheData = {
           Id: userData.Id,
           Email: decoded.sub,
-          FirstName: recruiterDetails ? recruiterDetails.FirstName : "",
-          LastName: recruiterDetails ? recruiterDetails.LastName : "",
-          Roles: getUserRoles,
         };
         console.log("loginCacheData", loginCacheData);
 

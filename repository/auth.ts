@@ -1,4 +1,4 @@
-import { connectMssqlDb } from "../config/mssql";
+import { connectMongoDb } from "../config/mongodb";
 import * as Models from "../models";
 
 export class Authentication {
@@ -14,7 +14,7 @@ export class Authentication {
 
   private async init() {
     try {
-      this.db = await connectMssqlDb(); // Wait for connectMssqlDb to resolve
+      this.db = await connectMongoDb(); // Wait for connectMssqlDb to resolve
       this.userRepo = await this.db.sequelize.getRepository(Models.User);
       this.recruiterRepo = await this.db.sequelize.getRepository(
         Models.Recruiter
