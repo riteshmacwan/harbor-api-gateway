@@ -8,6 +8,7 @@ type IUser = UserBody & Document;
 
 const UserSchema: Schema<IUser> = new Schema<IUser>(
   {
+    country_code: { required: false, type: String },
     phone_number: {
       required: false,
       unique: true,

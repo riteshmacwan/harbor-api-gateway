@@ -1,2 +1,2 @@
 export { Authentication } from "./auth";
-export { UserTokenRepository } from "./token";
+export { TokenRepository } from "./token";

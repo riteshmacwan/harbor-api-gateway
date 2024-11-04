@@ -13,6 +13,8 @@ const router = Router();
  * Define routes and associate them with middleware and services.
  */
 router.get("/login", authentication.login);
+router.post("/login", authentication.login);
+
 router.use(
   "/patient-manage/last-incoming-message-status/:email",
   handleProxyRequest

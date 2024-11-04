@@ -1,5 +1,4 @@
 import { TokenRepository } from "../repository/token";
-import { UserTokenRepository } from "../repository";
 import { ObjectId } from "mongoose";
 
 /**

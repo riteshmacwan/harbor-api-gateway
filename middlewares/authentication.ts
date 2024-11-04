@@ -39,33 +39,32 @@ export class Authentication {
           token,
           await commonUtils.getSecret(`${process.env.NODE_ENV}-JWT-SECRET`)
         );
+
         let cacheData = await commonUtils.getCache(token);
         if (cacheData) {
           return next();
         }
 
-        // TODO: Query Recruiteawaitrs table and find recruiter data based on email and add to RedisCache with 4 Hour Expiry
-        // Call the getUserDetails method
-        const userData = await this.authService.getUserDetails(decoded.sub);
-        // const recruiterDetails = await this.authService.getRecruiterDetails(
-        //   decoded.sub
-        // );
+        // Call the getUserTokenDetails method to get token information for particular user to manage sessions
+        const userData = await this.authService.getUserTokenDetails(
+          decoded.tokenId,
+          decoded.sub,
+          decoded.platform
+        );
 
-        // TODO: Get User Roles from - It's using Core ASP User Management therefore we need to make query to DB
-        // Get Roles for User from table AspNetUserRoles and Join the AspNetRoles to get it's Name;
-        // const getUserRoles = await this.authService.getUserRole(userData.Id);
+        if (!userData) {
+          return res.status(401).json({ error: "Invalid Token Provided." });
+        }
+
         let loginCacheData = {
-          Id: userData.Id,
-          Email: decoded.sub,
+          Id: userData.user_id,
+          TokenId: decoded.tokenId,
+          Platform: decoded.platform,
         };
         console.log("loginCacheData", loginCacheData);
 
         await commonUtils.setCache(token, JSON.stringify(loginCacheData));
         return next();
-        // TODO: Upon Redis Expiry we need to make sure to fetch again
-        // In Redis we need to store based on JWT Token, as it should be removed it self after 4 hours
-        // TODO: We need to store User Data and Roles in Redis
-        // TODO: What to do when Token is removed / user logout? Need to plan.
       }
 
       return res.status(401).json({ error: "Invalid Token Provided." });

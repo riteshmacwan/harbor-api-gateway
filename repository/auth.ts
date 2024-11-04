@@ -9,26 +9,26 @@ export class Authentication {
   private userRoleRepo: any;
 
   constructor() {
-    this.init();
+    // this.init();
   }
 
-  private async init() {
-    try {
-      this.db = await connectMongoDb(); // Wait for connectMssqlDb to resolve
-      this.userRepo = await this.db.sequelize.getRepository(Models.User);
-      this.recruiterRepo = await this.db.sequelize.getRepository(
-        Models.Recruiter
-      );
-      this.roleRepo = await this.db.sequelize.getRepository(Models.Role);
-      this.userRoleRepo = await this.db.sequelize.getRepository(
-        Models.UserRole
-      );
-    } catch (error) {
-      console.error("Error initializing Authentication:", error);
-      // Handle the error appropriately
-      throw error; // Ensure that the error is propagated to the caller
-    }
-  }
+  // private async init() {
+  // try {
+  // this.db = await connectMongoDb(); // Wait for connectMssqlDb to resolve
+  // this.userRepo = await this.db.sequelize.getRepository(Models.User);
+  // this.recruiterRepo = await this.db.sequelize.getRepository(
+  //   Models.Recruiter
+  // );
+  // this.roleRepo = await this.db.sequelize.getRepository(Models.Role);
+  // this.userRoleRepo = await this.db.sequelize.getRepository(
+  //   Models.UserRole
+  // );
+  // } catch (error) {
+  //   console.error("Error initializing Authentication:", error);
+  // Handle the error appropriately
+  //     throw error; // Ensure that the error is propagated to the caller
+  //   }
+  // }
 
   async getUserDetails(email: string) {
     try {
@@ -54,36 +54,6 @@ export class Authentication {
         where: { Email: email },
       });
       return getRecruiterDetails;
-    } catch (error) {
-      console.log(error);
-      return [];
-    }
-  }
-
-  async getUserRole(Id: string) {
-    try {
-      if (!this.roleRepo || !this.userRoleRepo) {
-        throw new Error("Repository not initialized.");
-      }
-
-      if (!Id) {
-        throw new Error("Invalid Params.");
-      }
-      const roleData = await this.roleRepo.findAll({
-        attributes: ["Id", "Name"],
-        include: [
-          {
-            model: this.userRoleRepo,
-            where: { UserId: Id },
-            attributes: [],
-            required: true,
-            duplicating: false, // Ensure the JOIN doesn't duplicate rows
-          },
-        ],
-        order: [], // Disable any default ordering
-      });
-      const roleNames = roleData ? roleData.map((role) => role.Name) : [];
-      return roleNames;
     } catch (error) {
       console.log(error);
       return [];

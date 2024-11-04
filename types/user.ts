@@ -2,6 +2,7 @@ import { Date, Types } from "mongoose";
 
 export interface UserBody {
   _id: string;
+  country_code: string;
   phone_number: string;
   apple_id: string;
   google_id: string;
