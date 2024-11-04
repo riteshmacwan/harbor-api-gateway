@@ -5,15 +5,18 @@ import {
   handleProxyRequest,
 } from "../services/proxyHandler";
 import { createProxyMiddleware } from "http-proxy-middleware";
+import { AuthController } from "../controllers/auth";
 const authentication = new Authentication();
+const authController = new AuthController();
 
 const router = Router();
 
 /**
  * Define routes and associate them with middleware and services.
  */
-router.get("/login", authentication.login);
-router.post("/login", authentication.login);
+// router.get("/login", authentication.login);
+router.post("/signup", authController.signUp);
+router.post("/login", authController.signUp);
 
 router.use(
   "/patient-manage/last-incoming-message-status/:email",
@@ -49,6 +52,6 @@ router.use(
     prependPath: true,
   })
 );
-router.use("/*", authentication.verifyToken, handleProxyRequest);
+// router.use("/*", authentication.verifyToken, handleProxyRequest);
 
 export default router;

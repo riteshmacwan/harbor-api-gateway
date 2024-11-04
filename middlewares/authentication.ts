@@ -48,7 +48,7 @@ export class Authentication {
         // Call the getUserTokenDetails method to get token information for particular user to manage sessions
         const userData = await this.authService.getUserTokenDetails(
           decoded.tokenId,
-          decoded.sub,
+          decoded.id,
           decoded.platform
         );
 
@@ -57,9 +57,9 @@ export class Authentication {
         }
 
         let loginCacheData = {
-          Id: userData.user_id,
-          TokenId: decoded.tokenId,
-          Platform: decoded.platform,
+          id: userData.user_id,
+          tokenId: decoded.tokenId,
+          platform: decoded.platform,
         };
         console.log("loginCacheData", loginCacheData);
 

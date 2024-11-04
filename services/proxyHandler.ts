@@ -27,33 +27,11 @@ class ServiceMap {
   public async initializeServiceMap(): Promise<void> {
     if (!this.isMapInitialized) {
       this.serviceMap = {
-        "/com-history": await this.getServiceUrl(
-          "com-history-url",
-          "http://localhost:3001"
-        ),
-        "/mass-com": await this.getServiceUrl(
-          "mass-com-url",
-          "http://localhost:3002"
-        ),
+        "/user": await this.getServiceUrl("user-url", "http://localhost:3001"),
+
         "/notifications": await this.getServiceUrl(
           "notifications-url",
           "http://localhost:3003"
-        ),
-        "/patient-manage": await this.getServiceUrl(
-          "patient-data-url",
-          "http://localhost:3004"
-        ),
-        "/prescreen-forms": await this.getServiceUrl(
-          "prescreen-forms-url",
-          "http://localhost:3005"
-        ),
-        "/script-repos": await this.getServiceUrl(
-          "script-repos-url",
-          "http://localhost:3006"
-        ),
-        "/patient-payment": await this.getServiceUrl(
-          "dot-patient-payment",
-          "http://localhost:3007"
         ),
       };
       this.isMapInitialized = true;

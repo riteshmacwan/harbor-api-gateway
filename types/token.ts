@@ -10,5 +10,5 @@ export interface TokenBody {
 }
 
 export interface TokenResponse extends TokenBody {
-  _id: string;
+  _id: Types.ObjectId;
 }

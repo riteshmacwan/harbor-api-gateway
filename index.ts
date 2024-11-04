@@ -6,6 +6,7 @@ import { requestLogger } from "./middlewares/requestLogger";
 import routes from "./routes";
 import cors from "cors";
 import { connectMongoDb } from "./config/mongodb";
+import bodyParser from "body-parser";
 
 appInsightsUtils.logMessage("API Gateway: Application is starting...");
 
@@ -16,6 +17,16 @@ const PORT = process.env.HOST_PORT ?? 3000;
 // enable cors
 app.use(cors());
 app.options("*", cors());
+
+// parse json request body
+app.use(
+  bodyParser.json({
+    limit: "20mb",
+  })
+);
+
+// parse urlencoded request body
+app.use(bodyParser.urlencoded({ extended: true, limit: "20mb" }));
 
 // Hide Express server information
 app.disable("x-powered-by");

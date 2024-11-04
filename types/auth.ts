@@ -7,10 +7,7 @@ export interface AuthBody {
   phone_number?: string;
   google_id?: string;
   apple_id?: string;
-}
-
-export interface AuthBodyResponse extends AuthBody {
-  _id: string;
+  platform: "app" | "web";
 }
 
 export interface LoginBodyResponse extends AuthBody {
