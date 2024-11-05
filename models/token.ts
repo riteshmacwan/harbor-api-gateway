@@ -1,4 +1,4 @@
-import { Schema, Document, Model, model } from "mongoose";
+import { Schema, Document, Model, model, Types } from "mongoose";
 import { TokenBody } from "../types/token";
 
 /**

@@ -25,12 +25,12 @@ export class TokenRepository {
 
   /**
    * Delete a token by id
-   * @param {ObjectId} id - The id of the token.
+   * @param {string} id - The id of the token.
    * @returns {Boolean} A boolean if token is deleted true or false if token is not deleted.
    */
-  async deleteTokenById(id: ObjectId): Promise<Boolean> {
+  async deleteTokenById(id: string): Promise<Boolean> {
     try {
-      const data = await Token.findByIdAndDelete(id);
+      await Token.findByIdAndDelete(id);
       return true;
     } catch (error: any) {
       console.log("TokenRepository/deleteTokenById error -->", error);

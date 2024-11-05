@@ -72,30 +72,4 @@ export class Authentication {
       return res.status(401).json({ error: "Invalid Token Provided." });
     }
   };
-
-  /**
-   * This middleware is used to create the dummy token for run the test case
-   * @returns Dummy Token for check the test case
-   */
-  login = async (req: Request, res: Response) => {
-    try {
-      let loginCacheData = {
-        Id: "123",
-        Email: "sahil.gw@dmclinical.com",
-        sub: "sahil.gw@dmclinical.com",
-        FirstName: "Sahil",
-        LastName: "Shaikh",
-        Roles: ["SuperAdmins"],
-      };
-      const token = jwt.sign(
-        loginCacheData,
-        await commonUtils.getSecret(`${process.env.NODE_ENV}-JWT-SECRET`)
-      );
-      await commonUtils.setCache(token, JSON.stringify(loginCacheData));
-      res.status(200).json({ message: "Login successful", token });
-    } catch (error: any) {
-      console.log("🚀 ~ Authentication ~ login= ~ error:", error);
-      return res.status(401).json({ error: "Invalid Token Provided." });
-    }
-  };
 }

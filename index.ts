@@ -37,7 +37,6 @@ setupSwagger(app);
 // Use custom request logger
 app.use(requestLogger);
 
-// connectMssqlDb();
 //connect mongodb
 connectMongoDb();
 

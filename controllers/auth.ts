@@ -24,7 +24,7 @@ export class AuthController {
   /**
    * Creates a user based on the request body.
    * @async
-   * @function - createDepartment
+   * @function - create user
    * @param {Request<{}, {}, AuthBody>} req - The request object containing the department data.
    * @param {Response} res - The response object.
    * @returns {Promise<Response>} The response indicating success or failure.
@@ -33,7 +33,23 @@ export class AuthController {
     req: Request<{}, {}, AuthBody>,
     res: Response
   ): Promise<Response> => {
-    // Create department using the provided data
+    // Create a user using the provided data
     return await this.authService.signUp(req.body, res);
+  };
+
+  /**
+   * Login a user based on the request body.
+   * @async
+   * @function - login user
+   * @param {Request<{}, {}, AuthBody>} req - The request object containing the department data.
+   * @param {Response} res - The response object.
+   * @returns {Promise<Response>} The response indicating success or failure.
+   */
+  login = async (
+    req: Request<{}, {}, AuthBody>,
+    res: Response
+  ): Promise<Response> => {
+    // Login a user using the provided data
+    return await this.authService.login(req.body, res);
   };
 }

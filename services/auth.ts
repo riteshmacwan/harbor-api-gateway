@@ -55,14 +55,10 @@ export class AuthService {
 
     if (tokenData && tokenData.platform == data.platform) {
       // delete the existing token and create new token
-      if (typeof tokenData._id == "string") {
-        await this.tokenRepository.deleteTokenById(tokenData._id);
-        tokenData = await this.tokenRepository.createToken(
-          user._id,
-          data.platform
-        );
-      }
+      await this.tokenRepository.deleteTokenById(tokenData._id);
     }
+
+    tokenData = await this.tokenRepository.createToken(user._id, data.platform);
 
     if (!tokenData) {
       return res.status(401).json({
