@@ -101,9 +101,22 @@ router.post("/login", validateAuthBody, validation, authController.login);
  *         description: Logout a user from harbor
  *         content:
  *           application/json:
+ *             schema:
  */
 router.get("/logout", authentication.verifyToken, authController.logout);
 
+/**
+ * @swagger
+ * /user:
+ *   get:
+ *     summary: Get user info
+ *     tags: [Authentication]
+ *     responses:
+ *       200:
+ *         content:
+ *           application/json:
+ *             schema:
+ */
 router.get("/user", validateCheckUserBody, validation, authController.getUser);
 
 /**
