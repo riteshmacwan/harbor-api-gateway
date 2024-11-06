@@ -89,7 +89,7 @@ router.use("/user/list-skill", handleProxyRequest);
 /**
  * @swagger
  * /logout:
- *   post:
+ *   get:
  *     summary: Logout a user
  *     tags: [Authentication]
  *     responses:
