@@ -65,4 +65,17 @@ export class AuthController {
     // Logout a user using the provided data
     return await this.authService.logout(req["user"], res);
   };
+
+  /**
+   * Get user data.
+   * @async
+   * @function - get user info
+   * @param {Request} req
+   * @param {Response} res
+   * @returns {Promise<Response>} The response indicating success or failure.
+   */
+  getUser = async (req: Request, res: Response): Promise<Response> => {
+    // get a user info using the provided data
+    return await this.authService.getUser(req.body, res);
+  };
 }

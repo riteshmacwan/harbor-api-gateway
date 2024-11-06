@@ -6,7 +6,11 @@ import {
 } from "../services/proxyHandler";
 import { createProxyMiddleware } from "http-proxy-middleware";
 import { AuthController } from "../controllers/auth";
-import { validateAuthBody, validation } from "../middlewares/validations/auth";
+import {
+  validateAuthBody,
+  validateCheckUserBody,
+  validation,
+} from "../middlewares/validations/auth";
 const authentication = new Authentication();
 const authController = new AuthController();
 
@@ -85,7 +89,7 @@ router.post("/signup", validateAuthBody, validation, authController.signUp);
  *                     description: user's phone number
  */
 router.post("/login", validateAuthBody, validation, authController.login);
-router.use("/user/list-skill", handleProxyRequest);
+
 /**
  * @swagger
  * /logout:
@@ -99,6 +103,14 @@ router.use("/user/list-skill", handleProxyRequest);
  *           application/json:
  */
 router.get("/logout", authentication.verifyToken, authController.logout);
+
+router.get("/user", validateCheckUserBody, validation, authController.getUser);
+
+/**
+ * Unauthorized routes
+ */
+router.use("/user/health-check", handleProxyRequest);
+router.use("/user/list-skill", handleProxyRequest);
 
 router.use(
   "/socket.io",

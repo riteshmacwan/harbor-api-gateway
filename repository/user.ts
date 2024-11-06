@@ -1,7 +1,7 @@
 import { ObjectId } from "mongoose";
 import { User } from "../models/user";
 import { UserBody, UserResponse } from "../types/user";
-import { AuthBody } from "../types/auth";
+import { AuthBody, UserInfoBody } from "../types/auth";
 
 /**
  * Repository class for managing user tokens.
@@ -41,10 +41,10 @@ export class UserRepository {
 
   /**
    * Find a user
-   * @param {AuthBody} data - auth data for user.
+   * @param {UserInfoBody} data - auth data for user.
    * @returns {Promise<UserResponse | null>} A Promise that resolves with the found auth body response or null if not found.
    */
-  async findUser(data: AuthBody): Promise<UserResponse | null> {
+  async findUser(data: UserInfoBody): Promise<UserResponse | null> {
     try {
       let findUserBy: any = { $or: [] };
       if (data.country_code && data.phone_number) {

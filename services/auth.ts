@@ -1,7 +1,7 @@
 import { UserRepository } from "../repository/user";
 import { TokenRepository } from "../repository";
 import { ObjectId } from "mongoose";
-import { AuthBody } from "../types/auth";
+import { AuthBody, UserInfoBody } from "../types/auth";
 import { Response } from "express";
 import jwt from "jsonwebtoken";
 import { CommonUtils } from "../utils";
@@ -182,6 +182,32 @@ export class AuthService {
       status: true,
       data: null,
       message: "Logged out.",
+    });
+  }
+
+  /**
+   * Get a user info.
+   * @async
+   * @body {AuthTokenBody} data - The data of the user to be logged out.
+   * @returns {Promise<Boolean>}
+   */
+  async getUser(data: UserInfoBody, res: Response) {
+    // fetch user data from the table
+    let user = await this.userRepository.findUser(data);
+
+    if (!user) {
+      return res.status(200).json({
+        status: true,
+        data: null,
+        message: "User not found.",
+      });
+    }
+
+    return res.status(200).json({
+      status: true,
+      data: {
+        message: "User exists.",
+      },
     });
   }
 }
