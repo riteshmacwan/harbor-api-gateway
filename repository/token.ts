@@ -56,10 +56,7 @@ export class TokenRepository {
       });
       return data;
     } catch (error: any) {
-      console.log(
-        "TokenRepository/findOneByTokenIdAndPlatform error -->",
-        error
-      );
+      console.log("TokenRepository/findTokenData error -->", error);
       return null;
     }
   }

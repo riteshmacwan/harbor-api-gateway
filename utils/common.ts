@@ -83,6 +83,7 @@ export class CommonUtils {
     try {
       await this.ensureRedisInitialized();
       const cachedData = await this.redisClient.get(key);
+
       return cachedData ? this.safeJSONParse(cachedData) : null;
     } catch (error) {
       return null;

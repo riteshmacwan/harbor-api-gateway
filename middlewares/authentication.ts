@@ -34,14 +34,16 @@ export class Authentication {
 
       if (authHeader?.startsWith("Bearer ")) {
         const token = authHeader.substring("Bearer ".length).trim();
-
-        let decoded = await jwt.verify(
-          token,
-          await commonUtils.getSecret(`${process.env.NODE_ENV}-JWT-SECRET`)
-        );
+        const secret =
+          process.env.NODE_ENV === "local"
+            ? process.env.JWT_SECRET
+            : await commonUtils.getSecret(`${process.env.NODE_ENV}-JWT-SECRET`);
+        let decoded = await jwt.verify(token, secret);
 
         let cacheData = await commonUtils.getCache(token);
+
         if (cacheData) {
+          req["user"] = cacheData;
           return next();
         }
 
@@ -61,8 +63,7 @@ export class Authentication {
           tokenId: decoded.tokenId,
           platform: decoded.platform,
         };
-        console.log("loginCacheData", loginCacheData);
-
+        req["user"] = loginCacheData;
         await commonUtils.setCache(token, JSON.stringify(loginCacheData));
         return next();
       }

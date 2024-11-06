@@ -18,8 +18,7 @@ const commonUtils = CommonUtils.getInstance();
 const generateMongoDbUrl = async (): Promise<string> => {
   let MONGODB_URL = "";
   if (environment === "local") {
-    // MONGODB_URL = await commonUtils.getSecret("local-db-connection-string");
-    MONGODB_URL = "mongodb://localhost:27017/harbor_dev";
+    MONGODB_URL = process.env.DB_URL ? process.env.DB_URL : "";
     console.log("connection successful");
   } else {
     const DB_USERNAME = await commonUtils.getSecret(

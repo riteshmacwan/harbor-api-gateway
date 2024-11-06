@@ -25,9 +25,9 @@ export class AuthController {
    * Creates a user based on the request body.
    * @async
    * @function - create user
-   * @param {Request<{}, {}, AuthBody>} req - The request object containing the department data.
-   * @param {Response} res - The response object.
-   * @returns {Promise<Response>} The response indicating success or failure.
+   * @param {Request<{}, {}, AuthBody>} req
+   * @param {Response} res
+   * @returns {Promise<Response>}
    */
   signUp = async (
     req: Request<{}, {}, AuthBody>,
@@ -41,9 +41,9 @@ export class AuthController {
    * Login a user based on the request body.
    * @async
    * @function - login user
-   * @param {Request<{}, {}, AuthBody>} req - The request object containing the department data.
-   * @param {Response} res - The response object.
-   * @returns {Promise<Response>} The response indicating success or failure.
+   * @param {Request<{}, {}, AuthBody>} req
+   * @param {Response} res
+   * @returns {Promise<Response>}
    */
   login = async (
     req: Request<{}, {}, AuthBody>,
@@ -51,5 +51,18 @@ export class AuthController {
   ): Promise<Response> => {
     // Login a user using the provided data
     return await this.authService.login(req.body, res);
+  };
+
+  /**
+   * Logout a user.
+   * @async
+   * @function - logout user
+   * @param {Request} req
+   * @param {Response} res
+   * @returns {Promise<Response>} The response indicating success or failure.
+   */
+  logout = async (req: Request, res: Response): Promise<Response> => {
+    // Logout a user using the provided data
+    return await this.authService.logout(req["user"], res);
   };
 }

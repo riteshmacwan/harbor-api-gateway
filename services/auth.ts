@@ -5,6 +5,7 @@ import { AuthBody } from "../types/auth";
 import { Response } from "express";
 import jwt from "jsonwebtoken";
 import { CommonUtils } from "../utils";
+import { AuthTokenBody } from "../types/authToken";
 const commonUtils = CommonUtils.getInstance();
 
 export class AuthService {
@@ -34,8 +35,8 @@ export class AuthService {
   /**
    * Login users to platform.
    * @async
-   * @param {AuthBody} data - The data of the user to be created.
-   * @returns {Promise<AuthBodyResponse>} A Promise that resolves when the login is done.
+   * @body {AuthBody} data - The data of the user to be created.
+   * @returns {Promise<AuthBodyResponse>}
    */
   async login(data: AuthBody, res: Response) {
     // Check if user is already exists or not
@@ -93,8 +94,8 @@ export class AuthService {
   /**
    * Registers a new user to platform.
    * @async
-   * @param {AuthBody} data - The data of the user to be created.
-   * @returns {Promise<AuthBodyResponse>} A Promise that resolves when the department is created.
+   * @body {AuthBody} data - The data of the user to be created.
+   * @returns {Promise<AuthBodyResponse>}
    */
   async signUp(data: AuthBody, res: Response) {
     // Check if user is already exists or not
@@ -153,6 +154,34 @@ export class AuthService {
     return res.status(200).json({
       status: true,
       data: token,
+    });
+  }
+
+  /**
+   * Logout a user from platform.
+   * @async
+   * @body {AuthTokenBody} data - The data of the user to be logged out.
+   * @returns {Promise<Boolean>}
+   */
+  async logout(authTokenData: AuthTokenBody, res: Response) {
+    // delete the token from the table
+    const tokenData = await this.tokenRepository.deleteTokenById(
+      authTokenData.tokenId.toString()
+    );
+
+    // Send error response if there is something wrong creating new record in token
+    if (!tokenData) {
+      return res.status(500).json({
+        status: false,
+        data: null,
+        message: "Token is not deleted.",
+      });
+    }
+
+    return res.status(200).json({
+      status: true,
+      data: null,
+      message: "Logged out.",
     });
   }
 }
