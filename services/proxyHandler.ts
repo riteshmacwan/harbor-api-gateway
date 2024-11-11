@@ -27,7 +27,14 @@ class ServiceMap {
   public async initializeServiceMap(): Promise<void> {
     if (!this.isMapInitialized) {
       this.serviceMap = {
-        "/user": await this.getServiceUrl("user-url", "http://localhost:3002"),
+        "/user-svc": await this.getServiceUrl(
+          "user-url",
+          "http://localhost:3002"
+        ),
+        "/job-svc": await this.getServiceUrl(
+          "job-url",
+          "http://localhost:3004"
+        ),
 
         "/notifications": await this.getServiceUrl(
           "notifications-url",

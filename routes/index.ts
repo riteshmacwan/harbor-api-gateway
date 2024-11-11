@@ -107,7 +107,7 @@ router.get("/logout", authentication.verifyToken, authController.logout);
 
 /**
  * @swagger
- * /user:
+ * /user-svc:
  *   get:
  *     summary: Get user info
  *     tags: [Authentication]
@@ -117,13 +117,23 @@ router.get("/logout", authentication.verifyToken, authController.logout);
  *           application/json:
  *             schema:
  */
-router.get("/user", validateCheckUserBody, validation, authController.getUser);
+router.get(
+  "/user-svc",
+  validateCheckUserBody,
+  validation,
+  authController.getUser
+);
 
 /**
- * Unauthorized routes
+ * Unauthorized routes for user service
  */
-router.use("/user/health-check", handleProxyRequest);
-router.use("/user/list-skill", handleProxyRequest);
+router.use("/user-svc/health-check", handleProxyRequest);
+router.use("/user-svc/list-skill", handleProxyRequest);
+
+/**
+ * Unauthorized routes for job service
+ */
+router.use("/job-svc/health-check", handleProxyRequest);
 
 router.use(
   "/socket.io",
